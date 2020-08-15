@@ -22,6 +22,7 @@ services:
   nodeexporter:
     image: prom/node-exporter
     restart: always
+    network_mode: host
     command:
       - '--path.procfs=/host/proc'
       - '--path.rootfs=/rootfs'
