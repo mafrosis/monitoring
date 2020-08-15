@@ -1,0 +1,36 @@
+---
+version: '3'
+
+volumes:
+  prom-data: {}
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.20.0
+    restart: unless-stopped
+    command:
+      - '--config.file=/prometheus.yaml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus.yaml:/prometheus.yaml:ro
+      - prom-data:/prometheus
+
+  nodeexporter:
+    image: prom/node-exporter
+    restart: always
+    network_mode: host
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
+    ports:
+      - 9100:9100
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
