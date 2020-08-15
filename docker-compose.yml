@@ -13,22 +13,22 @@ services:
       - '--storage.tsdb.path=/prometheus'
       - '--storage.tsdb.retention.time=200h'
       - '--web.enable-lifecycle'
-    expose:
-      - 9090
+    ports:
+      - 9090:9090
     volumes:
       - ./prometheus.yaml:/prometheus.yaml:ro
       - prom-data:/prometheus
 
   nodeexporter:
     image: prom/node-exporter
-    restart: unless-stopped
+    restart: always
     command:
       - '--path.procfs=/host/proc'
       - '--path.rootfs=/rootfs'
       - '--path.sysfs=/host/sys'
       - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
-    expose:
-      - 9100
+    ports:
+      - 9100:9100
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
