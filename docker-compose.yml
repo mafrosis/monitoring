@@ -3,6 +3,7 @@ version: '3'
 
 volumes:
   prom-data: {}
+  grafana-data: {}
 
 services:
   prometheus:
@@ -18,6 +19,17 @@ services:
     volumes:
       - ./prometheus.yaml:/prometheus.yaml:ro
       - prom-data:/prometheus
+
+  grafana:
+    image: grafana/grafana:7.1.3
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
+      - ./grafana/provisioning/:/etc/grafana/provisioning:ro
+      - ./grafana/provisioning/dashboards/:/var/lib/grafana/dashboards:ro
 
   nodeexporter:
     image: prom/node-exporter
