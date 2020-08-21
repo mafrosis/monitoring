@@ -27,7 +27,20 @@ services:
       - '--path.procfs=/host/proc'
       - '--path.rootfs=/rootfs'
       - '--path.sysfs=/host/sys'
+      - '--collector.disable-defaults'
+      - '--collector.cpu'
+      - '--collector.cpufreq'
+      - '--collector.diskstats'
       - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
+      - '--collector.hwmon'
+      - '--collector.loadavg'
+      - '--collector.meminfo'
+      - '--collector.netclass'
+      - '--collector.netstat'
+      - '--collector.stat'
+      - '--collector.uname'
+      - '--collector.vmstat'
+      - '--collector.wifi'
     ports:
       - 9100:9100
     volumes:
