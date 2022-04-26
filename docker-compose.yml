@@ -10,6 +10,7 @@ services:
     image: prom/prometheus:v2.33.5
     restart: unless-stopped
     command:
+      # - '--log.level=debug'
       - '--config.file=/prometheus.yaml'
       - '--storage.tsdb.path=/prometheus'
       - '--storage.tsdb.retention.time=200h'
