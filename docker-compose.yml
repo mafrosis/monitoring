@@ -19,6 +19,10 @@ services:
     volumes:
       - ./prometheus.yaml:/prometheus.yaml:ro
       - prom-data:/prometheus
+    extra_hosts:
+      ringil: 192.168.1.198
+      locke: 192.168.1.117
+      jorg: 192.168.1.104
 
   grafana:
     image: grafana/grafana:8.4.7
