@@ -21,6 +21,7 @@ services:
       - ./prometheus.yaml:/prometheus.yaml:ro
       - prom-data:/prometheus
     extra_hosts:
+      home.mafro.net: 192.168.1.198
       ringil: 192.168.1.198
       locke: 192.168.1.117
       jorg: 192.168.1.104
