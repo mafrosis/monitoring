@@ -52,7 +52,7 @@ services:
       - ./grafana/provisioning/:/etc/grafana/provisioning:ro
       - ./grafana/provisioning/dashboards/:/var/lib/grafana/dashboards:ro
 
-  nodeexporter:
+  node-exporter:
     image: prom/node-exporter
     restart: unless-stopped
     command:
