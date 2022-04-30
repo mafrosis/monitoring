@@ -17,3 +17,17 @@ scrape_configs:
     static_configs:
       - targets: ['home.mafro.net:2021']
 ```
+
+### Remote Write
+
+It's easy to forward metrics onto another agent who supports the prometheus `remote_read` protocol.
+The following relabel config keeps only metrics with a label of `job=ha`.
+
+```
+remote_write:
+  - url: http://vmetrics:8428/api/v1/write
+    write_relabel_configs:
+      - source_labels: [job]
+        regex: 'ha'
+        action: keep
+```

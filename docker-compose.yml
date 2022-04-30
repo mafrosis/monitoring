@@ -6,14 +6,14 @@ volumes:
   grafana-data: {}
 
 services:
-  prometheus:
+  prom:
     image: prom/prometheus:v2.35.0
     restart: unless-stopped
     command:
       # - '--log.level=debug'
       - '--config.file=/prometheus.yaml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--storage.tsdb.retention.time=200h'
+      - '--storage.tsdb.path=/prometheus/prom'
+      - '--storage.tsdb.retention.time=4w'
     ports:
       - 9090:9090
     volumes:
@@ -25,6 +25,21 @@ services:
       ringil: 192.168.1.198
       locke: 192.168.1.117
       jorg: 192.168.1.104
+
+  prom-lts:
+    image: prom/prometheus:v2.35.0
+    restart: unless-stopped
+    command:
+      - '--config.file=/dev/null'   # No configuration file
+      - '--storage.tsdb.path=/prometheus/lts'
+      - '--storage.tsdb.retention.time=10y'
+      - '--web.enable-remote-write-receiver'
+    ports:
+      - 9091:9090
+    volumes:
+      - prom-data:/prometheus
+    depends_on:
+      - prom
 
   grafana:
     image: grafana/grafana:8.4.7
