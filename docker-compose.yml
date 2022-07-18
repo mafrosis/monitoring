@@ -14,6 +14,7 @@ services:
       - '--config.file=/prometheus.yaml'
       - '--storage.tsdb.path=/prometheus/prom'
       - '--storage.tsdb.retention.time=4w'
+      - '--web.enable-admin-api'
     ports:
       - 9090:9090
     volumes:
