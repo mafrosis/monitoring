@@ -8,7 +8,7 @@ volumes:
 services:
   prom:
     image: prom/prometheus:v2.35.0
-    restart: unless-stopped
+    restart: always
     command:
       # - '--log.level=debug'
       - '--config.file=/prometheus.yaml'
