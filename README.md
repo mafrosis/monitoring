@@ -1,7 +1,25 @@
 Monitoring Stack
+==========
+
+A prometheus stack for a simple monitoring set up.
+
+
+Updating
 ----------
 
-## Prometheus
+Update the docker tag versions in [`.env`](./.env).
+
+ * https://hub.docker.com/r/prom/prometheus/tags 
+ * https://hub.docker.com/r/grafana/grafana/tags
+ * https://hub.docker.com/r/prom/node-exporter
+
+```
+docker compose pull
+docker compose up -d
+```
+
+Prometheus
+----------
 
 All metrics go into Prometheus, which has a 4 week retention period. Metrics in the `ha` namespace
 are forwarded onto [Victoria Metrics](./victoria-metrics) for long term storage.

@@ -1,13 +1,11 @@
 ---
-version: '3'
-
 volumes:
   prom-data: {}
   grafana-data: {}
 
 services:
   prom:
-    image: prom/prometheus:v2.35.0
+    image: prom/prometheus:${PROM_VERSION}
     restart: always
     command:
       # - '--log.level=debug'
@@ -28,7 +26,7 @@ services:
       jorg: 192.168.1.104
 
   prom-lts:
-    image: prom/prometheus:v2.35.0
+    image: prom/prometheus:${PROM_VERSION}
     restart: unless-stopped
     command:
       - '--config.file=/dev/null'   # No configuration file
@@ -43,7 +41,7 @@ services:
       - prom
 
   grafana:
-    image: grafana/grafana:8.4.7
+    image: grafana/grafana:${GRAFANA_VERSION}
     restart: unless-stopped
     ports:
       - 3000:3000
@@ -54,7 +52,7 @@ services:
       - ./grafana/provisioning/dashboards/:/var/lib/grafana/dashboards:ro
 
   node-exporter:
-    image: prom/node-exporter
+    image: prom/node-exporter:${NODE_EXPORTER_VERSION}
     restart: unless-stopped
     command:
       - '--path.procfs=/host/proc'
