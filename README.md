@@ -101,3 +101,49 @@ Prometheus snapshot stats:
   import requests retries: 0;
 2022/04/26 13:24:42 Total time: 3m1.862603292s
 ```
+
+
+Grafana
+----------
+
+
+Node Exporter
+----------
+
+
+Recipes
+----------
+
+Tips and tricks, things to remember.
+
+### Recovering lost Grafana password
+
+One can reset the `admin` account password to the string "admin" with this snippet. Ensure to change
+the volume name match your project name:
+
+```
+> docker run --rm -it -v monitoring_grafana-data:/var/grafana --entrypoint bash nouchka/sqlite3
+root@a9582505fca5:~/db#
+root@a9582505fca5:~/db# ls -l /var/grafana/
+total 464
+drwxr-xr-x 2 root root   4096 Aug 15 07:46 dashboards
+-rw-r--r-- 1  472  472 458752 Aug 15 10:29 grafana.db
+drwxrwxrwx 2  472  472   4096 Jun  5  2019 plugins
+drwx------ 2  472  472   4096 Aug 15 07:46 png
+root@a9582505fca5:~/db#
+root@a9582505fca5:~/db# sqlite3 /var/grafana/grafana.db
+SQLite version 3.27.2 2019-02-25 16:06:06
+Enter ".help" for usage hints.
+sqlite> update user set password = '59acf18b94d7eb0694c61e60ce44c110c7a683ac6a8f09580d626f90f4a242000746579358d77dd9e570e83fa2
+sqlite> .exit
+root@a9582505fca5:~/db# exit
+```
+
+* https://community.grafana.com/t/how-do-i-reset-admin-password/23/2
+
+
+## References
+
+ * https://github.com/stefanprodan/dockprom
+ * https://github.com/prometheus/statsd_exporter
+ * https://github.com/eko/pihole-exporter
