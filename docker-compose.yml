@@ -3,6 +3,10 @@ volumes:
   prom-data: {}
   grafana-data: {}
 
+networks:
+  caddy:
+    external: true
+
 services:
   prom:
     image: prom/prometheus:${PROM_VERSION}
@@ -21,8 +25,7 @@ services:
       - prom-data:/prometheus
     extra_hosts:
       home.mafro.net: 192.168.1.198
-      ringil: 192.168.1.198
-      locke: 192.168.1.117
+      locke: 192.168.1.198
       jorg: 192.168.1.104
 
   prom-lts:
@@ -43,13 +46,21 @@ services:
   grafana:
     image: grafana/grafana:${GRAFANA_VERSION}
     restart: unless-stopped
-    ports:
-      - 3000:3000
+    networks:
+      - caddy
+      - default
     volumes:
       - grafana-data:/var/lib/grafana
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
       - ./grafana/provisioning/:/etc/grafana/provisioning:ro
       - ./grafana/provisioning/dashboards/:/var/lib/grafana/dashboards:ro
+    extra_hosts:
+      locke: 192.168.1.198
+    labels:
+      caddy: grafana.mafro.net
+      caddy.tls.ca: https://ca.mafro.net:4433/acme/acme/directory
+      caddy.tls.ca_root: /root/step_ca.crt
+      caddy.reverse_proxy: "{{upstreams 3000}}"
 
   node-exporter:
     image: prom/node-exporter:${NODE_EXPORTER_VERSION}
