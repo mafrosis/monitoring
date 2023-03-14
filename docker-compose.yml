@@ -53,7 +53,6 @@ services:
       - grafana-data:/var/lib/grafana
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
       - ./grafana/provisioning/:/etc/grafana/provisioning:ro
-      - ./grafana/provisioning/dashboards/:/var/lib/grafana/dashboards:ro
     extra_hosts:
       locke: 192.168.1.198
     labels:
