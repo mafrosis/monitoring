@@ -1,7 +1,11 @@
 ---
 volumes:
-  prom-data: {}
-  grafana-data: {}
+  prom-data:
+    labels:
+      net.mafro.kopia: true
+  grafana-data:
+    labels:
+      net.mafro.kopia: true
 
 networks:
   caddy:
