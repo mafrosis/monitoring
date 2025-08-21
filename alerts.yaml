@@ -1,0 +1,17 @@
+---
+groups:
+  - name: custom_rules
+    rules:
+      - record: node_filesystem_free_percent
+        expr: 100 * node_filesystem_free_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}
+
+  - name: alert_rules
+    rules:
+      - alert: DiskSpaceFree10Percent
+        expr: node_filesystem_free_percent <= 10
+        labels:
+          severity: warning
+        annotations:
+          summary: "Instance [{{ $labels.instance }}] has 10% or less free disk space"
+          description: "[{{ $labels.instance }}] has only {{ $value }}% or less free."
+

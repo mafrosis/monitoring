@@ -6,6 +6,7 @@ volumes:
   grafana-data:
     labels:
       net.mafro.kopia: true
+  alertmanager-data: {}
 
 networks:
   caddy:
@@ -16,7 +17,7 @@ services:
     image: prom/prometheus:${PROM_VERSION}
     restart: always
     command:
-      # - '--log.level=debug'
+      #- '--log.level=debug'
       - '--config.file=/prometheus.yaml'
       - '--storage.tsdb.path=/prometheus/prom'
       - '--storage.tsdb.retention.time=4w'
@@ -92,3 +93,15 @@ services:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /:/rootfs:ro
+
+#  alertmanager:
+#    image: prom/alertmanager
+#    restart: unless-stopped
+#    command:
+#      - '-config.file=/etc/alertmanager/config.yml'
+#      - '-storage.path=/alertmanager'
+#    ports:
+#      - 9093:9093
+#    volumes:
+#      - ./alertmanager.yaml:/etc/alertmanager/config.yml
+#      - alertmanager-data:/alertmanager

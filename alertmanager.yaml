@@ -1,0 +1,14 @@
+---
+global:
+  smtp_smarthost: smtp.eu.mailgun.org:465
+  smtp_from: alertmanager@locke.eggs
+  smtp_auth_username: alertmanager@mailgun.mafro.dev
+  smtp_auth_password: 
+
+# templates:
+#   - /etc/alertmanager/template/*.tmpl
+
+receivers:
+  - name: admin
+    email_configs:
+      - to: dev@mafro.net
